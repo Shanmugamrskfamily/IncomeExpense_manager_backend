@@ -1,5 +1,5 @@
 // resetPasswordController.js
-const User = require('./userModel');
+const User = require('../Models/userModel');
 const nodemailer = require('nodemailer');
 require('dotenv').config(); // Load environment variables from .env
 
