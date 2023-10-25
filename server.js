@@ -1,20 +1,20 @@
-const express = require('express')
-const cors = require('cors');
-const app = express()
-const {db}= require('./Database/databaseConfig')
+// app.js
+const express = require('express');
+const bodyParser = require('body-parser');
+const connectDB = require('./Database/mongodbConfig');
+const routes = require('./Routes/routes');
+require('dotenv').config(); // Load environment variables from .env
 
-require('dotenv').config()
+const app = express();
 
+connectDB();
 
-const PORT = process.env.PORT||6000;
-app.use(express.json())
-app.use(cors())
+app.use(bodyParser.json());
 
+const PORT = process.env.PORT || 3000; // Use the PORT environment variable
 
-const server=()=>{
-    db();
-app.listen(PORT,()=>{
-    console.log(`Server is Running on PORT:http://localhost:${PORT}`);
+app.use('/api', routes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
-}
-server();
