@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/signup', userController.signup);
 
 // User Login Route with email verification check
-router.post('/login', checkEmailVerification, loginController.login);
+router.post('/login',loginController.login);
 
 // Send Password Reset Link Route
 router.post('/sendPasswordResetLink', resetPasswordController.sendPasswordResetLink);
