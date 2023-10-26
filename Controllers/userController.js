@@ -2,6 +2,7 @@ const User = require('../Models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -22,17 +23,26 @@ exports.signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = new User({ name, mobileNumber, email, password: hashedPassword, verified: false });
+    // Generate an email verification token
+    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+
+    const user = new User({
+      name,
+      mobileNumber,
+      email,
+      password: hashedPassword,
+      emailVerificationToken,
+      emailVerified: false, // Mark the email as unverified
+    });
 
     await user.save();
 
     // Create a JWT token
     const token = jwt.sign({ userId: user._id }, SECRET_KEY);
 
-    // Send an email with a verification link
-    const verificationToken = user.createPasswordResetToken();
-    const verificationLink = `${req.protocol}://${req.get('host')}/api/verifyEmail/${verificationToken}`;
-    
+    // Send an email with the verification link
+    const verificationLink = `${req.protocol}://${req.get('host')}/api/verifyEmail/${emailVerificationToken}`;
+
     const transporter = nodemailer.createTransport({
       service: 'Outlook',
       auth: {
@@ -44,9 +54,11 @@ exports.signup = async (req, res) => {
     const mailOptions = {
       from: EMAIL,
       to: user.email,
-      subject: 'Email Verification',
+      subject: 'Pettycash Manager-Email Verification',
       html: `
-        <p>To verify your email, click on the following button:</p>
+        <h3>Pettycash Manager</h3>
+        <p>Welcome to our family 😍</p>
+        <p>To verify your email, click on the following button 👇🏻:</p>
         <a href="${verificationLink}" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; display: inline-block; border-radius: 5px;">Verify Email</a>
       `,
     };
@@ -63,8 +75,8 @@ exports.verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
     const user = await User.findOne({
-      resetPasswordToken: token,
-      verified: false, // Verify that the email hasn't been verified yet
+      emailVerificationToken: token,
+      emailVerified: false, // Verify that the email hasn't been verified yet
     });
 
     if (!user) {
@@ -72,7 +84,8 @@ exports.verifyEmail = async (req, res) => {
     }
 
     // Update the user's email verification status
-    user.verified = true;
+    user.emailVerified = true;
+    user.emailVerificationToken = undefined; // Clear the verification token
     await user.save();
 
     res.status(200).json({ message: 'Email verification successful.' });

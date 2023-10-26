@@ -8,6 +8,9 @@ const router = express.Router();
 // User Signup Route
 router.post('/signup', userController.signup);
 
+// Email Verification Route
+router.get('/verifyEmail/:token', userController.verifyEmail);
+
 // User Login Route with email verification check
 router.post('/login',loginController.login);
 
@@ -17,7 +20,6 @@ router.post('/sendPasswordResetLink', resetPasswordController.sendPasswordResetL
 // Route for setting a new password and clearing reset tokens
 router.post('/resetPassword/:token', resetPasswordUpdateController.setNewPassword);
 
-// Email Verification Route
-router.get('/verifyEmail/:token', userController.verifyEmail);
+
 
 module.exports = router;

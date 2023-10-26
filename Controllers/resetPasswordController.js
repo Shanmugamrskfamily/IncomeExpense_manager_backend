@@ -36,9 +36,10 @@ exports.sendPasswordResetLink = async (req, res) => {
     const mailOptions = {
       from: EMAIL, 
       to: user.email,
-      subject: 'Password Reset',
+      subject: 'Pettycash Manager-Password Reset',
       html: `
-        <p>To reset your password, click on the following button:</p>
+      <h4>Hello ${user.name},</h4>
+        <p>To reset your password for your Account, click on the following button 👇🏻:</p>
         <a href="${resetLink}" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; display: inline-block; border-radius: 5px;">Reset Password</a>
       `,
     };
