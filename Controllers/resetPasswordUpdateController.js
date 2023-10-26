@@ -6,10 +6,8 @@ exports.setNewPassword = async (req, res) => {
   try {
     const { token } = req.params;
     const { newPassword } = req.body;
-
     const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() },
+      resetPasswordToken: token
     });
 
     if (!user) {
@@ -19,7 +17,7 @@ exports.setNewPassword = async (req, res) => {
     // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-
+console.log(hashedPassword);
     // Update the user's password
     user.password = hashedPassword;
 

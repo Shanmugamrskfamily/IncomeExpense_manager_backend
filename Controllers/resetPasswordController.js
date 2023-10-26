@@ -1,12 +1,13 @@
-// resetPasswordController.js
+
 const User = require('../Models/userModel');
 const nodemailer = require('nodemailer');
-require('dotenv').config(); // Load environment variables from .env
+const moment = require('moment');
+require('dotenv').config(); 
 
-const EMAIL = process.env.E_MAIL; // Use the environment variable for email
-const E_PASS = process.env.E_PASS; // Use the environment variable for email password
+const EMAIL = process.env.E_MAIL;
+const E_PASS = process.env.E_PASS;
 
-// Generate and send password reset link
+
 exports.sendPasswordResetLink = async (req, res) => {
   const { email } = req.body;
 
@@ -19,29 +20,32 @@ exports.sendPasswordResetLink = async (req, res) => {
 
     const resetToken = user.createPasswordResetToken();
     
-    // Save the updated user document
+    
     await user.save();
 
-    // Send the password reset email
+    
     const resetLink = `${req.protocol}://${req.get('host')}/api/resetPassword/${resetToken}`;
     const transporter = nodemailer.createTransport({
-      service: 'Outlook', // e.g., 'Gmail' or use a different mailer
+      service: 'Outlook',
       auth: {
-        user: EMAIL, // Use the environment variable
-        pass: E_PASS, // Use the environment variable
+        user: EMAIL,
+        pass: E_PASS,
       },
     });
 
     const mailOptions = {
-      from: EMAIL, // Use the environment variable
+      from: EMAIL, 
       to: user.email,
       subject: 'Password Reset',
-      text: `To reset your password, click on the following link: ${resetLink}`,
+      html: `
+        <p>To reset your password, click on the following button:</p>
+        <a href="${resetLink}" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; display: inline-block; border-radius: 5px;">Reset Password</a>
+      `,
     };
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ message: 'Password reset link sent to your email.' });
+    res.status(200).json({ message: 'Password reset link sent to your email.',resetToken });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }

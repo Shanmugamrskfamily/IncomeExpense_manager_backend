@@ -8,8 +8,8 @@ const router = express.Router();
 // User Signup Route
 router.post('/signup', userController.signup);
 
-// User Login Route
-router.post('/login', loginController.login);
+// User Login Route with email verification check
+router.post('/login', checkEmailVerification, loginController.login);
 
 // Send Password Reset Link Route
 router.post('/sendPasswordResetLink', resetPasswordController.sendPasswordResetLink);
@@ -17,5 +17,7 @@ router.post('/sendPasswordResetLink', resetPasswordController.sendPasswordResetL
 // Route for setting a new password and clearing reset tokens
 router.post('/resetPassword/:token', resetPasswordUpdateController.setNewPassword);
 
+// Email Verification Route
+router.get('/verifyEmail/:token', userController.verifyEmail);
 
 module.exports = router;
