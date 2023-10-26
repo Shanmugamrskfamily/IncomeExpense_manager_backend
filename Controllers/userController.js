@@ -11,7 +11,7 @@ const E_PASS = process.env.E_PASS;
 
 exports.signup = async (req, res) => {
   try {
-    const { name, mobileNumber, email, password } = req.body;
+    const { name, mobileNumber, email, password, avatar } = req.body;
 
     // Check if the user with the same email already exists
     const existingUser = await User.findOne({ email });
@@ -30,6 +30,7 @@ exports.signup = async (req, res) => {
       name,
       mobileNumber,
       email,
+      avatar,
       password: hashedPassword,
       emailVerificationToken,
       emailVerified: false, // Mark the email as unverified

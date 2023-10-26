@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   mobileNumber: { type: String, required: true },
+  avatar:{type: String, default:"https://api.dicebear.com/7.x/thumbs/svg?seed=Mimi"},
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   emailVerificationToken: String, 
