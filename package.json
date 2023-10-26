@@ -1,5 +1,5 @@
 {
-  "name": "petty_cash_manager_backend",
+  "name": "pettycash_manager_backend",
   "version": "1.0.0",
   "description": "To manage all cash incomes and expenses",
   "main": "server.js",
