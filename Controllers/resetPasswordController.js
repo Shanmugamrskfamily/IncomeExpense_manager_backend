@@ -1,4 +1,4 @@
-
+//resetPasswordController.js
 const User = require('../Models/userModel');
 const nodemailer = require('nodemailer');
 const moment = require('moment');

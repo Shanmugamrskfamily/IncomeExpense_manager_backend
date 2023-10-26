@@ -44,8 +44,8 @@ console.log(hashedPassword);
       to: user.email,
       subject: 'Pettycash Manager - Password Change Confirmation',
       html: `
-      <h4>Your Password Changed</h4>
-      <p>As per your request Your <b>Password</b> has been changed successfully!</p>
+      <h4>Dear ${user.name},</h4>
+      <p>As per your request Your <b style="color:green">Password has been changed successfully!</b></p>
       `,
     };
 

@@ -5,6 +5,9 @@ const resetPasswordController = require('../Controllers/resetPasswordController'
 const resetPasswordUpdateController = require('../Controllers/resetPasswordUpdateController');
 const incomeController = require('../Controllers/incomeController');
 const expenseController = require('../Controllers/expenseController');
+const cashBalanceController = require('../Controllers/cashBalanceController');
+const cumulativeUserIncomeController = require('../Controllers/cumulativeUserIncomeController');
+const cumulativeUserExpenseController = require('../Controllers/cumulativeUserExpenseController');
 const router = express.Router();
 
 // User Signup Route
@@ -27,5 +30,14 @@ router.post('/addIncome', incomeController.addIncome);
 
 // Add Expense Route
 router.post('/addExpense', expenseController.addExpense);
+
+// Calculate cash balance for a specific user
+router.get('/cashBalance/:userId', cashBalanceController.calculateCashBalance);
+
+// Calculate cumulative income amount for a specific user
+router.get('/cumulativeIncome/:userId', cumulativeUserIncomeController.calculateCumulativeIncome);
+
+// Calculate cumulative expense amount for a specific user
+router.get('/cumulativeExpense/:userId', cumulativeUserExpenseController.calculateCumulativeExpense);
 
 module.exports = router;

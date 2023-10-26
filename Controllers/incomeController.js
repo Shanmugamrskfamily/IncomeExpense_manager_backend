@@ -1,12 +1,12 @@
 // incomeController.js
-const Income = require('../Models/incomeModel');
+const Transaction = require('../Models/transactionsModel');
 const moment = require('moment');
 
 exports.addIncome = async (req, res) => {
   try {
-    const { userId, userName, title, amount, category, description,date } = req.body;
+    const { userId, userName, title, amount, category, type, description,date } = req.body;
     const formattedDate = moment(date).format('DD-MM-YYYY');
-    const income = new Income({ userId, userName, title, amount,date:formattedDate, category, description });
+    const income = new Transaction({ userId, userName, title, amount,date:formattedDate,type, category, description });
 
     await income.save();
 

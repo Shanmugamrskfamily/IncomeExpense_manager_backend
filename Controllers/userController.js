@@ -5,7 +5,6 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 require('dotenv').config();
 
-const SECRET_KEY = process.env.SECRET_KEY;
 const EMAIL = process.env.E_MAIL;
 const E_PASS = process.env.E_PASS;
 
@@ -37,10 +36,6 @@ exports.signup = async (req, res) => {
     });
 
     await user.save();
-
-    // Create a JWT token
-    const token = jwt.sign({ userId: user._id }, SECRET_KEY);
-
     // Send an email with the verification link
     const verificationLink = `${req.protocol}://${req.get('host')}/api/verifyEmail/${emailVerificationToken}`;
 
@@ -57,16 +52,16 @@ exports.signup = async (req, res) => {
       to: user.email,
       subject: 'Pettycash Manager-Email Verification',
       html: `
-        <h3>Pettycash Manager</h3>
-        <p>Welcome to our family 😍</p>
-        <p>To verify your email, click on the following button 👇🏻:</p>
+        <h2>Pettycash Manager</h2>
+        <h4><b>Dear ${user.name},</b></h4>
+        <p>Welcome to our family 😍, To verify your email, click on the following button 👇🏻:</p>
         <a href="${verificationLink}" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; display: inline-block; border-radius: 5px;">Verify Email</a>
       `,
     };
 
     await transporter.sendMail(mailOptions);
 
-    res.status(201).json({ message: "User registered successfully. Please verify your email.", token, userId: user._id });
+    res.status(201).json({ message: "User registered successfully. Please verify your email.", emailVerificationToken, userId: user._id });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
@@ -88,8 +83,27 @@ exports.verifyEmail = async (req, res) => {
     user.emailVerified = true;
     user.emailVerificationToken = undefined; // Clear the verification token
     await user.save();
+    const transporterVerified = nodemailer.createTransport({
+      service: 'Outlook',
+      auth: {
+        user: EMAIL,
+        pass: E_PASS,
+      },
+    });
 
-    res.status(200).json({ message: 'Email verification successful.' });
+    const mailOptionsVerified = {
+      from: EMAIL,
+      to: user.email,
+      subject: `Pettycash Manager- Email Veified`,
+      html: `
+        <h2>Pettycash Manager</h2>
+        <h4></h4>Dear <b>${user.name}</b>,</h4>
+        <p>Your Successfully Verified ✅ Your Email 📧</p>
+      `,
+    };
+
+    await transporterVerified.sendMail(mailOptionsVerified);
+    res.status(200).json({ message: 'Email verification successful, Confirmation Mail Sent!' });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
