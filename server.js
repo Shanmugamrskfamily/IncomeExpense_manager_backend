@@ -1,9 +1,9 @@
-// app.js
+//server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./Database/mongodbConfig');
 const routes = require('./Routes/routes');
-require('dotenv').config(); // Load environment variables from .env
+require('dotenv').config(); 
 
 const app = express();
 
@@ -11,7 +11,7 @@ connectDB();
 
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3000; // Use the PORT environment variable
+const PORT = process.env.PORT || 4000; 
 
 app.use('/api', routes);
 

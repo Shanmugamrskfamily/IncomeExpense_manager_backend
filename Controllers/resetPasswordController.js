@@ -23,7 +23,7 @@ exports.sendPasswordResetLink = async (req, res) => {
     await user.save();
 
     // Send the password reset email
-    const resetLink = `${req.protocol}://${req.get('host')}/resetPassword/${resetToken}`;
+    const resetLink = `${req.protocol}://${req.get('host')}/api/resetPassword/${resetToken}`;
     const transporter = nodemailer.createTransport({
       service: 'Outlook', // e.g., 'Gmail' or use a different mailer
       auth: {

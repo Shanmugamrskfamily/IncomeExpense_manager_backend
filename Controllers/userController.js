@@ -6,7 +6,7 @@ require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 exports.signup = async (req, res) => {
   try {
-    const { firstName, lastName, mobileNumber, email, password } = req.body;
+    const { name, mobileNumber, email, password } = req.body;
     
     // Check if the user with the same email already exists
     const existingUser = await User.findOne({ email });
@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
       return res.status(409).json({ message: 'User with this email already exists.' });
     }
     
-    const user = new User({ firstName, lastName, mobileNumber, email, password });
+    const user = new User({ name, mobileNumber, email, password });
     await user.save();
     
     // Create a JWT token
