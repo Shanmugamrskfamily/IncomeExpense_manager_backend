@@ -8,6 +8,9 @@ const expenseController = require('../Controllers/expenseController');
 const cashBalanceController = require('../Controllers/cashBalanceController');
 const cumulativeUserIncomeController = require('../Controllers/cumulativeUserIncomeController');
 const cumulativeUserExpenseController = require('../Controllers/cumulativeUserExpenseController');
+const incomePerUserController = require('../Controllers/incomePerUserController');
+const expensePerUserController = require('../Controllers/expensePerUserController');
+const allTransactionsController = require('../Controllers/allTransactionsController');
 const router = express.Router();
 
 // User Signup Route
@@ -39,5 +42,14 @@ router.get('/cumulativeIncome/:userId', cumulativeUserIncomeController.calculate
 
 // Calculate cumulative expense amount for a specific user
 router.get('/cumulativeExpense/:userId', cumulativeUserExpenseController.calculateCumulativeExpense);
+
+// Get all income transactions for a specific user
+router.get('/incomeTransactions/:userId', incomePerUserController.getAllIncomeTransactions);
+
+// Get all expense transactions for a specific user
+router.get('/expenseTransactions/:userId', expensePerUserController.getAllExpenseTransactions);
+
+// Get all income and expense transactions for a specific user, sorted by date
+router.get('/allTransactions/:userId', allTransactionsController.getAllTransactions);
 
 module.exports = router;
