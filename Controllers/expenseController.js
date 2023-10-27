@@ -6,8 +6,7 @@ exports.addExpense = async (req, res) => {
   try {
     const { userId, userName, title, amount, category,type, description, date } = req.body;
     // Assuming date is in 'DD-MM-YYYY' format, parse and format it to 'YYYY-MM-DD'
-    const formattedDate = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
-
+    const formattedDate = moment(date).format('YYYY-MM-DD');
     const expense = new Transaction({ userId, userName, title,type, amount, date: formattedDate, category, description });
 
     await expense.save();

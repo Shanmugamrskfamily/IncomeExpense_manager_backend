@@ -1,4 +1,4 @@
-// models/cumulativeUserExpenseModel.js
+//cumulativeUserExpenseModel.js
 const mongoose = require('mongoose');
 
 const cumulativeUserExpenseSchema = new mongoose.Schema({

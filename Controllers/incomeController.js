@@ -5,7 +5,7 @@ const moment = require('moment');
 exports.addIncome = async (req, res) => {
   try {
     const { userId, userName, title, amount, category, type, description,date } = req.body;
-    const formattedDate = moment(date).format('DD-MM-YYYY');
+    const formattedDate = moment(date).format('YYYY-MM-DD');
     const income = new Transaction({ userId, userName, title, amount,date:formattedDate,type, category, description });
 
     await income.save();

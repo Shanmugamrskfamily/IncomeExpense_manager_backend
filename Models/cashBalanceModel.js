@@ -1,4 +1,4 @@
-// models/cashBalanceModel.js
+//cashBalanceModel.js
 const mongoose = require('mongoose');
 
 const cashBalanceSchema = new mongoose.Schema({

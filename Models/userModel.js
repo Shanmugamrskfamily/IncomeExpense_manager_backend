@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   emailVerified: { type: Boolean, default: false },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+  jwtToken:{type: String}
 });
 
 userSchema.methods.createPasswordResetToken = function () {

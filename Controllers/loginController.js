@@ -29,11 +29,11 @@ exports.login = async (req, res) => {
 
     // Create a JWT token
     const token = jwt.sign({ userId: user._id }, SECRET_KEY);
+    user.jwtToken=token;
+    await user.save();
     const userName = user.name;
     res.status(200).json({ message: 'User Successfully Authenticated!', token, userId: user._id, userName });
   } catch (error) {
     res.status(500).json({ message: `Authentication failed. ${error.message}` });
   }
 };
-
-  

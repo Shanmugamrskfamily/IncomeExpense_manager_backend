@@ -1,4 +1,4 @@
-// controllers/cumulativeUserExpenseController.js
+//cumulativeUserExpenseController.js
 const CumulativeUserExpense = require('../Models/cumulativeUserExpenseModel');
 const Transaction = require('../Models/transactionsModel');
 

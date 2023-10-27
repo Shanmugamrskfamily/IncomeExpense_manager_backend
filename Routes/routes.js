@@ -16,7 +16,7 @@ const allTransactionsController = require('../Controllers/allTransactionsControl
 const editExpenseController = require('../Controllers/editExpenseController');
 const editIncomeController = require('../Controllers/editIncomeController');
 const editUserController = require('../Controllers/editUserController');
-
+const incomeExpenseDataController = require('../Controllers/incomeExpenseDataController');
 // User Routes
 router.post('/signup', userController.signup);
 router.get('/verifyEmail/:token', userController.verifyEmail);
@@ -43,6 +43,8 @@ router.get('/cumulativeExpense/:userId', cumulativeUserExpenseController.calcula
 
 // Transactions Routes
 router.get('/allTransactions/:userId', allTransactionsController.getAllTransactions);
+// Define a route for combined income and expense data
+router.get('/income-and-expense/:userId', incomeExpenseDataController.getAllIncomeAndExpenseData);
 
 // Edit User Routes
 router.post('/sendOTP', editUserController.sendOTP);

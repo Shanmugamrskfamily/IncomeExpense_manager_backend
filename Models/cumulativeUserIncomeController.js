@@ -1,4 +1,4 @@
-// models/cumulativeUserIncomeModel.js
+//cumulativeUserIncomeModel.js
 const mongoose = require('mongoose');
 
 const cumulativeUserIncomeSchema = new mongoose.Schema({

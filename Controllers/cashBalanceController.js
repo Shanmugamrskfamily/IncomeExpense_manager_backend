@@ -1,4 +1,4 @@
-// controllers/cashBalanceController.js
+//cashBalanceController.js
 const CashBalance = require('../Models/cashBalanceModel');
 const Transaction = require('../Models/transactionsModel');
 

@@ -1,4 +1,4 @@
-// controllers/cumulativeUserIncomeController.js
+//cumulativeUserIncomeController.js
 const CumulativeUserIncome = require('../Models/cumulativeUserIncomeController');
 const Transaction = require('../Models/transactionsModel');
 
