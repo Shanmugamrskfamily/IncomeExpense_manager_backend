@@ -51,11 +51,11 @@ exports.editUser = async (req, res) => {
   try {
     const { userId, name, mobileNumber, avatar, password, newEmail, otp } = req.body;
 
-    // Check if the new email is already in use
-    const emailExists = await User.findOne({ email: newEmail });
-    if (emailExists) {
-      return res.status(400).json({ message: 'Email already in use.' });
-    }
+    // // Check if the new email is already in use
+    // const emailExists = await User.findOne({ email: newEmail });
+    // if (emailExists) {
+    //   return res.status(400).json({ message: 'Email already in use.' });
+    // }
 
     // Verify the OTP
     const user = await User.findOne({ _id: userId });
@@ -84,8 +84,28 @@ exports.editUser = async (req, res) => {
     user.emailVerificationToken = undefined;
 
     await user.save();
+    //sending Profile update Confirmation Email
+    const transporterEmail = nodemailer.createTransport({
+      service: 'Outlook',
+      auth: {
+        user: EMAIL,
+        pass: E_PASS,
+      },
+    });
 
-    res.status(200).json({ message: 'User information updated successfully' });
+    const mailOptionsConfirm = {
+      from: EMAIL,
+      to: newEmail,
+      subject: 'Pettycash Manager-Profile Updated',
+      html: `<p>Dear <b>${user.name}</b>,</p>
+      <p>As per your Request we updated your Profile Details as follows,</p>
+      <p><b>Changes you Made:</b></p>
+      <p><ul><li>Name: ${user.name}</li><li>Mobile Number: ${user.mobileNumber}</li><li>Avatar: ${user.avatar}</li><li>Password: ${password}</li><li>Email:${user.email}</li></ul></p>`,
+    };
+
+    await transporterEmail.sendMail(mailOptionsConfirm);
+
+    res.status(200).json({ message: 'User information updated successfully, Confirmation Email Sent' });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.', error });
   }

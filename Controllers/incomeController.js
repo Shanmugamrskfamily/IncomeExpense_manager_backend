@@ -15,3 +15,22 @@ exports.addIncome = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.',error });
   }
 };
+exports.deleteIncome = async (req, res) => {
+  try {
+    const { userId, incomeId } = req.params;
+
+    // Find the income data by user and income IDs
+    const income = await Transaction.findOne({ userId, _id: incomeId });
+
+    if (!income) {
+      return res.status(404).json({ message: 'Income data not found' });
+    }
+
+    // Delete the income data using deleteOne
+    await Transaction.deleteOne({ _id: incomeId });
+
+    res.status(200).json({ message: 'Income data deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.', error });
+  }
+};

@@ -17,3 +17,22 @@ exports.addExpense = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.', error });
   }
 };
+exports.deleteExpense = async (req, res) => {
+  try {
+    const { userId, expenseId } = req.params;
+
+    // Find the expense data by user and expense IDs
+    const expense = await Transaction.findOne({ userId, _id: expenseId });
+
+    if (!expense) {
+      return res.status(404).json({ message: 'Expense data not found' });
+    }
+
+    // Delete the expense data using deleteOne
+    await Transaction.deleteOne({ _id: expenseId });
+
+    res.status(200).json({ message: 'Expense data deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.', error });
+  }
+};

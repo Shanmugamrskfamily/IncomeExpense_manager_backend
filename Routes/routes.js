@@ -1,4 +1,6 @@
+//Routes.js
 const express = require('express');
+const router = express.Router();
 const userController = require('../Controllers/userController');
 const loginController = require('../Controllers/loginController');
 const resetPasswordController = require('../Controllers/resetPasswordController');
@@ -14,60 +16,37 @@ const allTransactionsController = require('../Controllers/allTransactionsControl
 const editExpenseController = require('../Controllers/editExpenseController');
 const editIncomeController = require('../Controllers/editIncomeController');
 const editUserController = require('../Controllers/editUserController');
-const router = express.Router();
 
-// User Signup Route
+// User Routes
 router.post('/signup', userController.signup);
-
-// Email Verification Route
 router.get('/verifyEmail/:token', userController.verifyEmail);
-
-// User Login Route with email verification check
-router.post('/login',loginController.login);
-
-// Send Password Reset Link Route
+router.post('/login', loginController.login);
 router.post('/sendPasswordResetLink', resetPasswordController.sendPasswordResetLink);
-
-// Route for setting a new password and clearing reset tokens
 router.post('/resetPassword/:token', resetPasswordUpdateController.setNewPassword);
 
-// Add Income Route
+// Income Routes
 router.post('/addIncome', incomeController.addIncome);
+router.get('/incomeTransactions/:userId', incomePerUserController.getAllIncomeTransactions);
+router.put('/editIncome/:userId/:transactionId', editIncomeController.editIncomeTransaction);
+router.delete('/deleteIncome/:userId/:incomeId', incomeController.deleteIncome);
 
-// Add Expense Route
+// Expense Routes
 router.post('/addExpense', expenseController.addExpense);
+router.get('/expenseTransactions/:userId', expensePerUserController.getAllExpenseTransactions);
+router.put('/editExpense/:userId/:transactionId', editExpenseController.editExpenseTransaction);
+router.delete('/deleteExpense/:userId/:expenseId', expenseController.deleteExpense);
 
-// Calculate cash balance for a specific user
+// Cash Balance and Cumulative Routes
 router.get('/cashBalance/:userId', cashBalanceController.calculateCashBalance);
-
-// Calculate cumulative income amount for a specific user
 router.get('/cumulativeIncome/:userId', cumulativeUserIncomeController.calculateCumulativeIncome);
-
-// Calculate cumulative expense amount for a specific user
 router.get('/cumulativeExpense/:userId', cumulativeUserExpenseController.calculateCumulativeExpense);
 
-// Get all income transactions for a specific user
-router.get('/incomeTransactions/:userId', incomePerUserController.getAllIncomeTransactions);
-
-// Get all expense transactions for a specific user
-router.get('/expenseTransactions/:userId', expensePerUserController.getAllExpenseTransactions);
-
-// Get all income and expense transactions for a specific user, sorted by date
+// Transactions Routes
 router.get('/allTransactions/:userId', allTransactionsController.getAllTransactions);
 
-// Edit an expense transaction for a specific user
-router.put('/editExpense/:userId/:transactionId', editExpenseController.editExpenseTransaction);
-
-// Edit an income transaction for a specific user
-router.put('/editIncome/:userId/:transactionId', editIncomeController.editIncomeTransaction);
-
-// Send OTP for email verification
+// Edit User Routes
 router.post('/sendOTP', editUserController.sendOTP);
-
-// Edit user data, including email verification and OTP validation
 router.put('/editUser', editUserController.editUser);
-
-// Get user information by user ID
 router.get('/user/:userId', userController.getUserInfo);
 
 module.exports = router;
