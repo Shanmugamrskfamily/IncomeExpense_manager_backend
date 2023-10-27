@@ -13,6 +13,7 @@ const expensePerUserController = require('../Controllers/expensePerUserControlle
 const allTransactionsController = require('../Controllers/allTransactionsController');
 const editExpenseController = require('../Controllers/editExpenseController');
 const editIncomeController = require('../Controllers/editIncomeController');
+const editUserController = require('../Controllers/editUserController');
 const router = express.Router();
 
 // User Signup Route
@@ -59,5 +60,14 @@ router.put('/editExpense/:userId/:transactionId', editExpenseController.editExpe
 
 // Edit an income transaction for a specific user
 router.put('/editIncome/:userId/:transactionId', editIncomeController.editIncomeTransaction);
+
+// Send OTP for email verification
+router.post('/sendOTP', editUserController.sendOTP);
+
+// Edit user data, including email verification and OTP validation
+router.put('/editUser', editUserController.editUser);
+
+// Get user information by user ID
+router.get('/user/:userId', userController.getUserInfo);
 
 module.exports = router;

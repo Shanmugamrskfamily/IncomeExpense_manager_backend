@@ -109,3 +109,20 @@ exports.verifyEmail = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 };
+exports.getUserInfo = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find the user by their user ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Return user information
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.', error });
+  }
+};
