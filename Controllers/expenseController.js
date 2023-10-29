@@ -35,3 +35,19 @@ exports.deleteExpense = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.', error });
   }
 };
+exports.getExpenseTransaction = async (req, res) => {
+  try {
+    const { userId, expenseId } = req.params; 
+
+    
+    const expenseTransaction = await Transaction.findOne({ userId, _id: expenseId, type: 'expense' });
+
+    if (!expenseTransaction) {
+      return res.status(404).json({ message: 'Expense transaction not found for the user.' });
+    }
+
+    res.status(200).json({ expenseTransaction });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.', error });
+  }
+};

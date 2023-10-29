@@ -9,16 +9,14 @@ const E_PASS = process.env.E_PASS;
 
 exports.setNewPassword = async (req, res) => {
   try {
-    const { token } = req.params;
-    const { newPassword } = req.body;
+    const { otp, newPassword  } = req.body;
     const user = await User.findOne({
-      resetPasswordToken: token
+      emailVerificationToken: otp
     });
 
     if (!user) {
       return res.status(400).json({ message: 'Invalid or expired reset token.' });
     }
-
     // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
@@ -26,9 +24,8 @@ console.log(hashedPassword);
     // Update the user's password
     user.password = hashedPassword;
 
-    // Clear the resetPasswordToken and resetPasswordExpires fields
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
+    // Clear the emailVerificationToken fields
+    user.emailVerificationToken = undefined;
     // Save the updated user document
     await user.save();
     const transporter = nodemailer.createTransport({
@@ -46,6 +43,8 @@ console.log(hashedPassword);
       html: `
       <h4>Dear ${user.name},</h4>
       <p>As per your request Your <b style="color:green">Password has been changed successfully!</b></p>
+      <p>Your Email ID: ${user.email}</p>
+      <p>Your New Passwordd is: <b style="color:green">${newPassword}</b></p>
       `,
     };
 

@@ -34,3 +34,19 @@ exports.deleteIncome = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.', error });
   }
 };
+exports.getIncomeTransaction = async (req, res) => {
+  try {
+    const { userId, incomeId } = req.params; // Get userId and incomeId from the route parameters
+
+    // Assuming you have an authenticated user from the middleware, you can use the userId and incomeId to find the specific income transaction
+    const incomeTransaction = await Transaction.findOne({ userId, _id: incomeId, type: 'income' });
+
+    if (!incomeTransaction) {
+      return res.status(404).json({ message: 'Income transaction not found for the user.' });
+    }
+
+    res.status(200).json({ incomeTransaction });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.', error });
+  }
+};

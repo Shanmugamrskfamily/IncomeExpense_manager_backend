@@ -6,7 +6,7 @@ exports.editIncomeTransaction = async (req, res) => {
   try {
     const userId = req.params.userId;
     const transactionId = req.params.transactionId;
-    const { title, amount, category, description, date, type } = req.body;
+    const { title, amount, category, description, date } = req.body;
 
     // Format the date using moment to "DD-MM-YYYY"
     const formattedDate = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
@@ -24,7 +24,6 @@ exports.editIncomeTransaction = async (req, res) => {
     transaction.category = category;
     transaction.description = description;
     transaction.date = formattedDate;
-    transaction.type= type;
 
     // Save the updated transaction
     await transaction.save();

@@ -3,15 +3,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./Database/mongodbConfig');
 const routes = require('./Routes/routes');
-require('dotenv').config(); 
+const cors = require('cors'); // Add this line
 
+require('dotenv').config();
 const app = express();
-
-connectDB();
 
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 4000; 
+// Enable CORS for all routes
+app.use(cors());
+
+connectDB();
+const PORT = process.env.PORT || 4000;
 
 app.use('/api', routes);
 

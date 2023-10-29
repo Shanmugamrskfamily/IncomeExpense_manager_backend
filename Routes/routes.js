@@ -17,24 +17,30 @@ const editExpenseController = require('../Controllers/editExpenseController');
 const editIncomeController = require('../Controllers/editIncomeController');
 const editUserController = require('../Controllers/editUserController');
 const incomeExpenseDataController = require('../Controllers/incomeExpenseDataController');
+const avatarController = require('../Controllers/avatarController');
+
+
 // User Routes
 router.post('/signup', userController.signup);
-router.get('/verifyEmail/:token', userController.verifyEmail);
+router.post('/verifyEmail', userController.verifyEmail);
 router.post('/login', loginController.login);
 router.post('/sendPasswordResetLink', resetPasswordController.sendPasswordResetLink);
-router.post('/resetPassword/:token', resetPasswordUpdateController.setNewPassword);
+router.post('/resetPassword', resetPasswordUpdateController.setNewPassword);
+router.get('/avatars', avatarController.getAllAvatars);
 
 // Income Routes
 router.post('/addIncome', incomeController.addIncome);
 router.get('/incomeTransactions/:userId', incomePerUserController.getAllIncomeTransactions);
 router.put('/editIncome/:userId/:transactionId', editIncomeController.editIncomeTransaction);
 router.delete('/deleteIncome/:userId/:incomeId', incomeController.deleteIncome);
+router.get('/incomeTransaction/:userId/:incomeId',incomeController.getIncomeTransaction);
 
 // Expense Routes
 router.post('/addExpense', expenseController.addExpense);
 router.get('/expenseTransactions/:userId', expensePerUserController.getAllExpenseTransactions);
 router.put('/editExpense/:userId/:transactionId', editExpenseController.editExpenseTransaction);
 router.delete('/deleteExpense/:userId/:expenseId', expenseController.deleteExpense);
+router.get('/expenseTransaction/:userId/:expenseId', expenseController.getExpenseTransaction);
 
 // Cash Balance and Cumulative Routes
 router.get('/cashBalance/:userId', cashBalanceController.calculateCashBalance);
