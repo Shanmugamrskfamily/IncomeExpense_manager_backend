@@ -14,7 +14,7 @@ exports.getAllIncomeAndExpenseData = async (req, res) => {
       userId,
       type: { $in: ['income', 'expense'] }, // Filter by income and expense
       date: { $gte: formattedStartDate, $lte: formattedEndDate },
-    }).sort({ date: -1 }); // Sort by date in descending order (newest to oldest)
+    }).sort({ date: 1 }); // Sort by date in descending order (newest to oldest)
 
     res.status(200).json({ incomeAndExpenseData });
   } catch (error) {

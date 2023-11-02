@@ -33,14 +33,14 @@ router.post('/addIncome', incomeController.addIncome);
 router.get('/incomeTransactions/:userId', incomePerUserController.getAllIncomeTransactions);
 router.put('/editIncome/:userId/:transactionId', editIncomeController.editIncomeTransaction);
 router.delete('/deleteIncome/:userId/:incomeId', incomeController.deleteIncome);
-router.get('/incomeTransaction/:userId/:incomeId',incomeController.getIncomeTransaction);
+router.post('/incomeTransaction/:userId/:incomeId',incomeController.getIncomeTransaction);
 
 // Expense Routes
 router.post('/addExpense', expenseController.addExpense);
 router.get('/expenseTransactions/:userId', expensePerUserController.getAllExpenseTransactions);
 router.put('/editExpense/:userId/:transactionId', editExpenseController.editExpenseTransaction);
 router.delete('/deleteExpense/:userId/:expenseId', expenseController.deleteExpense);
-router.get('/expenseTransaction/:userId/:expenseId', expenseController.getExpenseTransaction);
+router.post('/expenseTransaction/:userId/:expenseId', expenseController.getExpenseTransaction);
 
 // Cash Balance and Cumulative Routes
 router.get('/cashBalance/:userId', cashBalanceController.calculateCashBalance);
@@ -50,10 +50,10 @@ router.get('/cumulativeExpense/:userId', cumulativeUserExpenseController.calcula
 // Transactions Routes
 router.get('/allTransactions/:userId', allTransactionsController.getAllTransactions);
 // Define a route for combined income and expense data
-router.get('/income-and-expense/:userId', incomeExpenseDataController.getAllIncomeAndExpenseData);
+router.post('/income-and-expense/:userId', incomeExpenseDataController.getAllIncomeAndExpenseData);
 
 // Edit User Routes
-router.post('/sendOTP', editUserController.sendOTP);
+router.post('/sendOTP/:userId', editUserController.sendOTP);
 router.put('/editUser', editUserController.editUser);
 router.get('/user/:userId', userController.getUserInfo);
 

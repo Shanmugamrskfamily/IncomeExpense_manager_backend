@@ -39,7 +39,7 @@ console.log(hashedPassword);
     const mailOptions = {
       from: EMAIL, 
       to: user.email,
-      subject: 'Pettycash Manager - Password Change Confirmation',
+      subject: 'RSK Pettycash Manager - Password Change Confirmation',
       html: `
       <h4>Dear ${user.name},</h4>
       <p>As per your request Your <b style="color:green">Password has been changed successfully!</b></p>

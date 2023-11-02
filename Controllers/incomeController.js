@@ -1,12 +1,12 @@
 // incomeController.js
 const Transaction = require('../Models/transactionsModel');
-const moment = require('moment');
+
 
 exports.addIncome = async (req, res) => {
   try {
     const { userId, userName, title, amount, category, type, description,date } = req.body;
-    const formattedDate = moment(date).format('YYYY-MM-DD');
-    const income = new Transaction({ userId, userName, title, amount,date:formattedDate,type, category, description });
+    // const formattedDate = moment(date).format('YYYY-MM-DD');
+    const income = new Transaction({ userId, userName, title, amount,date,type, category, description });
 
     await income.save();
 
@@ -15,6 +15,7 @@ exports.addIncome = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.',error });
   }
 };
+
 exports.deleteIncome = async (req, res) => {
   try {
     const { userId, incomeId } = req.params;
@@ -34,7 +35,10 @@ exports.deleteIncome = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.', error });
   }
 };
+
+
 exports.getIncomeTransaction = async (req, res) => {
+  
   try {
     const { userId, incomeId } = req.params; // Get userId and incomeId from the route parameters
 
@@ -50,3 +54,4 @@ exports.getIncomeTransaction = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.', error });
   }
 };
+

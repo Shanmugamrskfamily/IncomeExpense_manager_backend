@@ -9,12 +9,14 @@ const E_PASS = process.env.E_PASS;
 
 exports.sendOTP = async (req, res) => {
   try {
-    const { userId, name, mobileNumber, avatar, password, newEmail } = req.body;
+    const {userId}=req.params;
+    const {  name, mobileNumber, avatar, newEmail } = req.body;
 
     // Generate an OTP for email verification
     const otp = crypto.randomBytes(4).toString('hex');
     // Store the OTP in the user's data
     const user = await User.findOne({ _id: userId });
+    // console.log(user);
     if (!user) {
       return res.status(400).json({ message: 'Invalid user.' });
     }
@@ -32,11 +34,11 @@ exports.sendOTP = async (req, res) => {
     const mailOptions = {
       from: EMAIL,
       to: newEmail,
-      subject: 'Pettycash Manager-OTP for Profile Update',
+      subject: 'RSK Pettycash Manager-OTP for Profile Update',
       html: `<p>Dear <b>${user.name}</b>,</p>
       <p>Your OTP for Profile Updation: <h3><b>${otp}</b></h3></p>
       <p><b>Changes You Requested For:</b></p>
-      <p><ul><li>Name: ${name}</li><li>Mobile Number: ${mobileNumber}</li><li>Avatar: ${avatar}</li><li>Password: ${password}</li><li>Email:${newEmail}</li></ul></p>`,
+      <p><ul><li>Name: ${name}</li><li>Mobile Number: ${mobileNumber}</li><li>Avatar: ${avatar}</li><li>Email:${newEmail}</li></ul></p>`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -44,18 +46,14 @@ exports.sendOTP = async (req, res) => {
     res.status(200).json({ message: 'OTP sent for email verification' });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.', error });
+    console.log(error);
   }
 };
 
 exports.editUser = async (req, res) => {
   try {
-    const { userId, name, mobileNumber, avatar, password, newEmail, otp } = req.body;
+    const { userId, newName, newMobileNumber, newAvatar,newEmail, otp } = req.body;
 
-    // // Check if the new email is already in use
-    // const emailExists = await User.findOne({ email: newEmail });
-    // if (emailExists) {
-    //   return res.status(400).json({ message: 'Email already in use.' });
-    // }
 
     // Verify the OTP
     const user = await User.findOne({ _id: userId });
@@ -68,17 +66,10 @@ exports.editUser = async (req, res) => {
     }
 
     // Update user information
-    user.name = name;
-    user.mobileNumber = mobileNumber;
-    user.avatar = avatar;
+    user.name = newName;
+    user.mobileNumber = newMobileNumber;
+    user.avatar = newAvatar;
     user.email = newEmail;
-
-    // If a new password is provided, hash and update it
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      user.password = hashedPassword;
-    }
 
     // Clear the email verification token
     user.emailVerificationToken = undefined;
@@ -96,11 +87,11 @@ exports.editUser = async (req, res) => {
     const mailOptionsConfirm = {
       from: EMAIL,
       to: newEmail,
-      subject: 'Pettycash Manager-Profile Updated',
+      subject: 'RSK Pettycash Manager-Profile Updated',
       html: `<p>Dear <b>${user.name}</b>,</p>
       <p>As per your Request we updated your Profile Details as follows,</p>
       <p><b>Changes you Made:</b></p>
-      <p><ul><li>Name: ${user.name}</li><li>Mobile Number: ${user.mobileNumber}</li><li>Avatar: ${user.avatar}</li><li>Password: ${password}</li><li>Email:${user.email}</li></ul></p>`,
+      <p><ul><li>Name: ${user.name}</li><li>Mobile Number: ${user.mobileNumber}</li><li>Avatar: ${user.avatar}</li><li>Email:${user.email}</li></ul></p>`,
     };
 
     await transporterEmail.sendMail(mailOptionsConfirm);

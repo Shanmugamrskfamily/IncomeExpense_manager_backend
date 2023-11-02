@@ -1,15 +1,11 @@
-//editIncomeController.js
 const Transaction = require('../Models/transactionsModel');
-const moment = require('moment');
+// const moment = require('moment');
 
 exports.editIncomeTransaction = async (req, res) => {
   try {
     const userId = req.params.userId;
     const transactionId = req.params.transactionId;
     const { title, amount, category, description, date } = req.body;
-
-    // Format the date using moment to "DD-MM-YYYY"
-    const formattedDate = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
 
     // Find the transaction to be edited
     const transaction = await Transaction.findOne({ _id: transactionId, userId, type: 'income' });
@@ -22,8 +18,8 @@ exports.editIncomeTransaction = async (req, res) => {
     transaction.title = title;
     transaction.amount = amount;
     transaction.category = category;
+    transaction.date = date; // Ensure date is consistent with how it's handled on the client side
     transaction.description = description;
-    transaction.date = formattedDate;
 
     // Save the updated transaction
     await transaction.save();

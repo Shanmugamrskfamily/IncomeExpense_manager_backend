@@ -1,15 +1,15 @@
 //editExpenseController.js
 const Transaction = require('../Models/transactionsModel');
-const moment = require('moment'); // Import the moment library
+// const moment = require('moment'); // Import the moment library
 
 exports.editExpenseTransaction = async (req, res) => {
   try {
     const userId = req.params.userId;
     const transactionId = req.params.transactionId;
-    const { title, amount, category, description, date, type } = req.body;
+    const { title, amount, category, description, date } = req.body;
 
-    // Format the date using moment to "DD-MM-YYYY"
-    const formattedDate = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    // // Format the date using moment to "DD-MM-YYYY"
+    // const formattedDate = moment(date, 'DD-MM-YYYY').format('YYYY-MM-DD');
 
     // Find the transaction to be edited
     const transaction = await Transaction.findOne({ _id: transactionId, userId, type: 'expense' });
@@ -23,8 +23,7 @@ exports.editExpenseTransaction = async (req, res) => {
     transaction.amount = amount;
     transaction.category = category;
     transaction.description = description;
-    transaction.date = formattedDate; 
-    transaction.type= type;
+    transaction.date = date;
     // Save the updated transaction
     await transaction.save();
 
