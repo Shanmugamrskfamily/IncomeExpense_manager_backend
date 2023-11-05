@@ -35,7 +35,7 @@ exports.sendPasswordResetLink = async (req, res) => {
     const mailOptions = {
       from: EMAIL, 
       to: user.email,
-      subject: 'RSK Pettycash Manager-Password Reset OTP',
+      subject: 'Income&Expense Manager-Password Reset OTP',
       html: `
       <h4>Hello ${user.name},</h4>
         <p> Below is Your OTP To reset your password for your Account 👇🏻:</p>

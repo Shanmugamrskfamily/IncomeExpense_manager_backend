@@ -34,7 +34,7 @@ exports.sendOTP = async (req, res) => {
     const mailOptions = {
       from: EMAIL,
       to: newEmail,
-      subject: 'RSK Pettycash Manager-OTP for Profile Update',
+      subject: 'Income&Expense Manager-OTP for Profile Update',
       html: `<p>Dear <b>${user.name}</b>,</p>
       <p>Your OTP for Profile Updation: <h3><b>${otp}</b></h3></p>
       <p><b>Changes You Requested For:</b></p>
@@ -87,7 +87,7 @@ exports.editUser = async (req, res) => {
     const mailOptionsConfirm = {
       from: EMAIL,
       to: newEmail,
-      subject: 'RSK Pettycash Manager-Profile Updated',
+      subject: 'Income&Expense Manager-Profile Updated',
       html: `<p>Dear <b>${user.name}</b>,</p>
       <p>As per your Request we updated your Profile Details as follows,</p>
       <p><b>Changes you Made:</b></p>

@@ -51,9 +51,9 @@ exports.signup = async (req, res) => {
     const mailOptions = {
       from: EMAIL,
       to: user.email,
-      subject: 'Pettycash Manager-Signup Email Verification OTP',
+      subject: 'Income&Expense Manager-Signup Email Verification OTP',
       html: `
-        <h2>Pettycash Manager</h2>
+        <h2>Income&Expense Manager</h2>
         <h4><b>Dear ${user.name},</b></h4>
         <p>Welcome to our family 😍,</p>
         <p>Your Email Verification OTP is: <b>${verificationOtp}</b></p>
@@ -96,9 +96,9 @@ exports.verifyEmail = async (req, res) => {
     const mailOptionsVerified = {
       from: EMAIL,
       to: user.email,
-      subject: `Pettycash Manager - Email Verified`,
+      subject: `Income&Expense Manager - Email Verified`,
       html: `
-        <h2>Pettycash Manager</h2>
+        <h2>Income&Expense Manager</h2>
         <h4>Dear <b>${user.name},</b></h4>
         <p>Your email has been successfully verified ✅.</p>
       `,
